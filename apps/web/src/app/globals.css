@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --skyline-bg: #f6f8fb;
+  --skyline-blue: #2563eb;
+  --skyline-ink: #111827;
+}
+
+body {
+  margin: 0;
+  background: var(--skyline-bg);
+  color: var(--skyline-ink);
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes atm-money-deposit {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 42px, 0) scale(0.82);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(0, -104px, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -132px, 0) scale(0.92);
+  }
+}
+
+@keyframes atm-money-withdraw {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -42px, 0) scale(0.82);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 104px, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 132px, 0) scale(0.92);
+  }
+}
+
+@keyframes atm-button-success {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(0.985);
+  }
+
+  72% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes atm-invalid {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  18% {
+    transform: translateX(-8px);
+  }
+
+  36% {
+    transform: translateX(8px);
+  }
+
+  54% {
+    transform: translateX(-6px);
+  }
+
+  72% {
+    transform: translateX(6px);
+  }
+}
+
+.animate-atm-money-deposit {
+  animation: atm-money-deposit 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-atm-money-withdraw {
+  animation: atm-money-withdraw 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-atm-button-success {
+  animation: atm-button-success 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-atm-invalid {
+  animation: atm-invalid 420ms ease both;
+}
+
+

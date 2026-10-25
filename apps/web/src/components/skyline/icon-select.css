@@ -1,0 +1,18 @@
+.icon-select { position: relative; min-width: 0; }
+.icon-select-trigger { display: flex; width: 100%; height: 48px; align-items: center; gap: 10px; border: 1px solid #c9d9ee; border-radius: 7px; background: #fff; padding: 0 9px; color: #081936; text-align: left; cursor: pointer; }
+.icon-select-trigger strong { min-width: 0; flex: 1; overflow: hidden; font-size: 17px; text-overflow: ellipsis; white-space: nowrap; }
+.icon-select-trigger > svg { flex: 0 0 auto; color: #607bb0; transition: transform .15s ease; }
+.icon-select-trigger > svg.is-open { transform: rotate(180deg); }
+.icon-select-icon { display: grid; width: 31px; height: 31px; flex: 0 0 31px; place-items: center; border-radius: 6px; background: #e8f1ff; color: #087cff; }
+.icon-select-icon--energy { background: #fff0e3; color: #f18322; }
+.icon-select-icon--housing { background: #e6f8ed; color: #0ca961; }
+.icon-select-icon--gas { background: #e5f2ff; color: #087cff; }
+.icon-select-icon--metal { background: #edf0f8; color: #637eb3; }
+.icon-select-icon--wood { background: #e7f8eb; color: #298e52; }
+.icon-select-icon--coal { background: #e9eef3; color: #5f718e; }
+.icon-select-menu { position: absolute; z-index: 20; top: calc(100% + 4px); right: 0; left: 0; border: 1px solid #c9d9ee; border-radius: 7px; background: #fff; padding: 5px; box-shadow: 0 12px 30px #1939662b; }
+.icon-select-menu button { display: flex; width: 100%; height: 42px; align-items: center; gap: 10px; border: 0; border-radius: 5px; background: #fff; padding: 0 7px; color: #081936; text-align: left; cursor: pointer; }
+.icon-select-menu button:hover, .icon-select-menu button[aria-selected="true"] { background: #eef6ff; }
+.icon-select-menu button > span:nth-child(2) { min-width: 0; flex: 1; font-size: 16px; }
+.icon-select-menu button > svg { color: #087cff; }
+.icon-select-trigger:focus-visible, .icon-select-menu button:focus-visible { outline: 3px solid #087cff; outline-offset: 2px; }

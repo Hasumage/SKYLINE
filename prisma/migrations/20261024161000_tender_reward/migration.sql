@@ -1,0 +1,1 @@
+ALTER TABLE "tenders" ADD COLUMN "paid_at" TIMESTAMP(3);

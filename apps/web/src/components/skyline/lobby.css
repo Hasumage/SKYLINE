@@ -1,0 +1,132 @@
+.lobby-shell { box-shadow: 0 0 0 1px #e8f1fa; }
+.lobby-scenery {
+  background-image:
+    linear-gradient(180deg, rgb(1 13 36 / 10%) 0%, rgb(1 13 36 / 50%) 48%, rgb(1 13 36 / 26%) 100%),
+    url("/generated/lobby-waterfront.png");
+  background-position: center;
+  background-size: 100% 100%, cover;
+  animation: lobby-scenery-in 650ms ease-out both;
+}
+.lobby-scenic .lobby-header {
+  min-height: 205px;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  padding-top: 20px;
+}
+.lobby-brand-scenic {
+  flex-direction: column;
+  gap: 0;
+  text-align: center;
+}
+.lobby-brand-scenic .lobby-brand-mark { width: 78px; height: 117px; object-fit: contain; }
+.lobby-brand-scenic > span { margin-top: -6px; color: white; font-size: 33px; letter-spacing: 0; }
+.lobby-brand-scenic small { margin-top: 5px; color: #9dccff; font-size: 11px; }
+.lobby-scenic .lobby-content { padding-top: 4px; }
+.lobby-scenic .lobby-heading { text-align: center; }
+.lobby-scenic .lobby-heading h1 { color: white; font-size: 24px; }
+.lobby-scenic .lobby-heading p { margin-inline: auto; max-width: 280px; color: #b8d8ff; }
+.lobby-scenic section {
+  border-color: rgb(111 190 255 / 62%);
+  background: rgb(3 24 55 / 66%);
+  color: white;
+  box-shadow: inset 0 0 22px rgb(0 117 255 / 8%);
+  backdrop-filter: blur(9px);
+}
+.lobby-scenic .lobby-field-label { color: #a9d1ff; }
+.lobby-scenic .lobby-text-input {
+  border-color: rgb(121 192 255 / 74%);
+  background: rgb(1 20 48 / 50%);
+}
+.lobby-scenic .lobby-text-input input { color: white; }
+.lobby-scenic .lobby-text-input > span { color: #87c8ff; }
+.lobby-scenic .lobby-button,
+.lobby-scenic .lobby-choice:not(.lobby-choice-secondary) {
+  background: linear-gradient(120deg, #22c8ff, #0676ff);
+  box-shadow: 0 12px 26px rgb(0 74 180 / 34%), inset 0 1px rgb(255 255 255 / 25%);
+}
+.lobby-scenic .lobby-choice-secondary {
+  border-color: rgb(123 190 255 / 72%);
+  background: rgb(3 25 55 / 74%);
+  color: #e1f2ff;
+  backdrop-filter: blur(8px);
+}
+.lobby-scenic .lobby-choice-secondary > span:first-child {
+  background: rgb(20 90 158 / 55%);
+  color: #b7e6ff;
+}
+.lobby-scenic .lobby-help,
+.lobby-scenic section .text-\[\#4b5fba\] { color: #b8d8ff; }
+.lobby-scenic section .text-\[\#087cff\] { color: #92d5ff; }
+.lobby-scenic .lobby-help { text-shadow: 0 1px 8px #00132e; }
+.lobby-scenic section .grid.grid-cols-2 > div {
+  border: 1px solid rgb(115 188 255 / 42%);
+  background: rgb(10 54 105 / 78%);
+  color: white;
+}
+.lobby-scenic section .grid.grid-cols-2 svg { color: #92d5ff; }
+.lobby-scenic .lobby-entry-footer {
+  align-self: center;
+  margin-bottom: 12px;
+  border: 1px solid rgb(167 216 255 / 45%);
+  border-radius: 999px;
+  background: rgb(3 28 60 / 62%);
+  padding: 7px 14px;
+  color: #e0f2ff;
+  backdrop-filter: blur(6px);
+}
+@keyframes lobby-scenery-in { from { opacity: 0; } to { opacity: 1; } }
+.lobby-header { min-height: 66px; margin-inline: -16px; }
+.lobby-content { padding-top: 19px; padding-bottom: 16px; }
+.lobby-heading { margin-bottom: 4px; }
+.lobby-tabs { margin-top: 14px; }
+.lobby-field-gap { margin-top: 14px; }
+.lobby-button:hover, .lobby-choice:hover { transform: translateY(-2px); }
+.lobby-team:active, .lobby-choice:active { transform: scale(.985); }
+.lobby-swatch { box-shadow: 0 2px 8px #17396b22; }
+@keyframes lobby-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.lobby-shake { animation: lobby-shake .28s ease; }
+@media (max-height: 740px) {
+  .lobby-header { min-height: 55px; }
+  .lobby-content { padding-top: 12px; padding-bottom: 10px; }
+  .lobby-heading h1 { font-size: 22px; }
+  .lobby-tabs { margin-top: 9px; }
+  .lobby-tabs a { height: 35px; }
+  .lobby-form-panel { padding: 12px; }
+  .lobby-field-gap { margin-top: 10px; }
+  .lobby-form-panel .grid.grid-cols-5 { width: min(100%, 292px); gap: 5px; margin-inline: auto; }
+  .lobby-form-panel .lobby-team { height: 49px; }
+  .lobby-form-panel .lobby-divider { margin-block: 8px; }
+  .lobby-submit { height: 46px; }
+  .lobby-scenic .lobby-header { min-height: 155px; padding-top: 12px; }
+  .lobby-brand-scenic .lobby-brand-mark { width: 55px; height: 83px; }
+  .lobby-brand-scenic > span { font-size: 27px; }
+  .lobby-brand-scenic small { font-size: 10px; }
+  .lobby-scenic .lobby-heading h1 { font-size: 21px; }
+}
+@media (max-height: 680px) {
+  .lobby-header { min-height: 48px; }
+  .lobby-content { padding-top: 8px; padding-bottom: 6px; }
+  .lobby-heading h1 { font-size: 20px; }
+  .lobby-tabs { margin-top: 7px; }
+  .lobby-tabs a { height: 32px; }
+  .lobby-form-panel { padding: 9px; }
+  .lobby-field-gap { margin-top: 7px; }
+  .lobby-form-panel input:not([type="color"]) { font-size: 16px; }
+  .lobby-form-panel .lobby-swatch, .lobby-form-panel label:has(input[type="color"]) { width: 32px; height: 32px; }
+  .lobby-form-panel .grid.grid-cols-5 { width: min(100%, 270px); }
+  .lobby-submit { height: 42px; }
+  .lobby-scenic .lobby-header { min-height: 124px; padding-top: 8px; }
+  .lobby-brand-scenic .lobby-brand-mark { width: 44px; height: 66px; }
+  .lobby-brand-scenic > span { font-size: 25px; }
+  .lobby-scenic .lobby-content { padding-top: 4px; }
+  .lobby-scenic .lobby-heading h1 { font-size: 20px; }
+}
+@media (max-width: 340px) and (max-height: 600px) {
+  .lobby-form-panel .grid.grid-cols-5 { width: min(100%, 222px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lobby-button, .lobby-choice, .lobby-team, .lobby-swatch { transition: none; }
+  .lobby-shake { animation: none; }
+  .lobby-scenery { animation: none; }
+}

@@ -1,0 +1,574 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum SessionStatus {
+  DRAFT
+  WAITING
+  ACTIVE
+  PAUSED
+  FINISHED
+}
+
+enum CredentialPurpose {
+  PLAYER_JOIN
+  STAFF_LOGIN
+  PUBLIC_DISPLAY
+}
+
+enum StationType {
+  BANK
+  CONSTRUCTION
+  ATM
+  PATENT_OFFICE
+  MEDICINE
+  ENTERPRISES
+  MAYOR
+}
+
+enum ActorType {
+  ORGANIZER
+  GAME_MASTER
+  PLAYER
+  PUBLIC_DISPLAY
+  SYSTEM
+}
+
+enum QuarterRunStatus {
+  STARTED
+  COMMITTED
+  FAILED
+}
+
+enum MatchSnapshotPhase {
+  START
+  QUARTER
+  FINAL
+}
+
+model GameSession {
+  id                 String             @id @default(uuid()) @db.Uuid
+  name               String
+  status             SessionStatus      @default(DRAFT)
+  currentQuarter     Int                @default(0) @map("current_quarter")
+  quarterDurationSec Int                @default(300) @map("quarter_duration_sec")
+  totalQuarters      Int                @default(10) @map("total_quarters")
+  startsAt           DateTime?          @map("starts_at")
+  pausedAt           DateTime?          @map("paused_at")
+  configVersion      Int                @default(1) @map("config_version")
+  createdAt          DateTime           @default(now()) @map("created_at")
+  organizerTokenHash String             @unique @map("organizer_token_hash")
+  eventSequence      Int                @default(0) @map("event_sequence")
+  credentials        JoinCredential[]
+  participants       Participant[]
+  teams              Team[]
+  staffSessions      StaffSession[]
+  stationReadiness   StationReadiness[]
+  configs            SessionConfig[]
+  quarterRuns        QuarterRun[]
+  matchSnapshots     MatchScoreSnapshot[]
+  ledgerEntries      LedgerEntry[]
+  resourceStocks     ResourceStock[]
+  auditEvents        AuditEvent[]
+  loans              Loan[]
+  tenders            Tender[]
+  patents            Patent[]
+  medicalEvents      MedicalEvent[]
+  objectPrices       ObjectPrice[]
+  resourcePrices     ResourcePrice[]
+  resourceSales      ResourceSale[]
+  projectorState     ProjectorState?
+
+  @@map("game_sessions")
+}
+
+model JoinCredential {
+  id          String             @id @default(uuid()) @db.Uuid
+  sessionId   String             @map("session_id") @db.Uuid
+  purpose     CredentialPurpose
+  stationType StationType?       @map("station_type")
+  secretHash  String             @map("secret_hash")
+  secretCipher String            @map("secret_cipher")
+  expiresAt   DateTime?          @map("expires_at")
+  revokedAt   DateTime?          @map("revoked_at")
+  usesLimit   Int?               @map("uses_limit")
+  usedCount   Int                @default(0) @map("used_count")
+  session     GameSession        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  staff       StaffSession[]
+
+  @@index([sessionId])
+  @@index([secretHash])
+  @@map("join_credentials")
+}
+
+model ProjectorState {
+  sessionId String      @id @map("session_id") @db.Uuid
+  screen    String      @default("overview")
+  automatic Boolean    @default(false)
+  changedAt DateTime    @default(now()) @map("changed_at")
+  session   GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("projector_states")
+}
+
+model Participant {
+  id               String      @id @default(uuid()) @db.Uuid
+  sessionId        String      @map("session_id") @db.Uuid
+  teamId           String?     @map("team_id") @db.Uuid
+  displayName      String?     @map("display_name")
+  sessionTokenHash String      @unique @map("session_token_hash")
+  deviceIdHash     String?     @unique @map("device_id_hash")
+  joinedAt         DateTime    @default(now()) @map("joined_at")
+  lastSeenAt       DateTime?   @map("last_seen_at")
+  disqualifiedAt   DateTime?   @map("disqualified_at")
+  session          GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team             Team?       @relation(fields: [teamId], references: [id], onDelete: SetNull)
+
+  @@index([sessionId])
+  @@index([teamId])
+  @@map("participants")
+}
+
+model Team {
+  id                String         @id @default(uuid()) @db.Uuid
+  sessionId         String         @map("session_id") @db.Uuid
+  name              String
+  code              String
+  color             String         @default("#087cff")
+  avatar            Int            @default(0)
+  createdAt         DateTime       @default(now()) @map("created_at")
+  electronicBalance Int            @default(0) @map("electronic_balance")
+  session           GameSession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  participants      Participant[]
+  ownedObjects      OwnedObject[]
+  resourceStocks    ResourceStock[]
+  resourceSales     ResourceSale[]
+  productionLines   ProductionLine[]
+  ledgerEntries     LedgerEntry[]
+  loans             Loan[]
+  tenderContributions TenderContribution[]
+  matchSnapshots    MatchScoreSnapshot[]
+  patents           Patent[]
+  affectedMedicalEvents MedicalEventTeam[]
+
+  @@unique([sessionId, name])
+  @@unique([sessionId, code])
+  @@index([sessionId])
+  @@map("teams")
+}
+
+model MatchScoreSnapshot {
+  sessionId       String             @map("session_id") @db.Uuid
+  teamId          String             @map("team_id") @db.Uuid
+  phase           MatchSnapshotPhase
+  quarterNumber   Int                @map("quarter_number")
+  teamName        String             @map("team_name")
+  balance         Int
+  assetsCount     Int                @map("assets_count")
+  stockUnits      Int                @map("stock_units")
+  buildingPoints  Int                @map("building_points")
+  resourcePoints  Int                @map("resource_points")
+  debt            Int
+  debtDeduction   Int                @map("debt_deduction")
+  score           Int
+  rank            Int
+  isWinner        Boolean            @map("is_winner")
+  ruleVersion     Int                @default(1) @map("rule_version")
+  recordedAt      DateTime           @default(now()) @map("recorded_at")
+  session         GameSession        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team            Team               @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, phase, quarterNumber, teamId])
+  @@index([sessionId, quarterNumber])
+  @@index([teamId, quarterNumber])
+  @@map("match_score_snapshots")
+}
+
+model StaffSession {
+  id            String          @id @default(uuid()) @db.Uuid
+  gameSessionId String          @map("game_session_id") @db.Uuid
+  stationType   StationType     @map("station_type")
+  credentialId  String          @map("credential_id") @db.Uuid
+  sessionTokenHash String       @unique @map("session_token_hash")
+  joinedAt      DateTime        @default(now()) @map("joined_at")
+  revokedAt     DateTime?       @map("revoked_at")
+  gameSession   GameSession     @relation(fields: [gameSessionId], references: [id], onDelete: Cascade)
+  credential    JoinCredential  @relation(fields: [credentialId], references: [id], onDelete: Restrict)
+
+  @@unique([gameSessionId, stationType])
+  @@index([gameSessionId])
+  @@map("staff_sessions")
+}
+
+model StationReadiness {
+  sessionId   String      @map("session_id") @db.Uuid
+  stationType StationType @map("station_type")
+  required    Boolean     @default(false)
+  enabled     Boolean     @default(true)
+  ready       Boolean     @default(false)
+  lastSeenAt  DateTime?   @map("last_seen_at")
+  session     GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, stationType])
+  @@map("station_readiness")
+}
+
+model SessionConfig {
+  id        String      @id @default(uuid()) @db.Uuid
+  sessionId String      @map("session_id") @db.Uuid
+  version   Int
+  config    Json
+  createdAt DateTime    @default(now()) @map("created_at")
+  session   GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, version])
+  @@index([sessionId])
+  @@map("session_config")
+}
+
+model ObjectType {
+  id                String        @id @default(uuid()) @db.Uuid
+  code              String        @unique
+  category          String
+  purchaseBasePrice Int           @map("purchase_base_price")
+  productionRules   Json          @map("production_rules_json")
+  active            Boolean       @default(true)
+  ownedObjects      OwnedObject[]
+  yields            ObjectYield[]
+  prices            ObjectPrice[]
+
+  @@map("object_types")
+}
+
+model OwnedObject {
+  id             String      @id @default(uuid()) @db.Uuid
+  sessionId      String      @map("session_id") @db.Uuid
+  teamId         String      @map("team_id") @db.Uuid
+  objectTypeId   String      @map("object_type_id") @db.Uuid
+  quantity       Int
+  builtInQuarter Int         @map("built_in_quarter")
+  firstProductionQuarter Int @map("first_production_quarter")
+  idempotencyKey String?     @map("idempotency_key")
+  unitPrice      Int?        @map("unit_price")
+  totalPrice     Int?        @map("total_price")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  team           Team        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  objectType     ObjectType  @relation(fields: [objectTypeId], references: [id], onDelete: Restrict)
+
+  @@index([sessionId])
+  @@index([teamId])
+  @@unique([sessionId, idempotencyKey])
+  @@map("owned_objects")
+}
+
+model Loan {
+  id             String        @id @default(uuid()) @db.Uuid
+  sessionId      String        @map("session_id") @db.Uuid
+  teamId         String        @map("team_id") @db.Uuid
+  principal      Int
+  rateBasisPoints Int          @map("rate_basis_points")
+  quarters       Int
+  totalDue       Int           @map("total_due")
+  remaining      Int
+  principalRemaining Int        @map("principal_remaining")
+  accruedInterest Int           @default(0) @map("accrued_interest")
+  interestThroughQuarter Int    @default(0) @map("interest_through_quarter")
+  delivery       String
+  issuedQuarter  Int           @map("issued_quarter")
+  idempotencyKey String        @map("idempotency_key")
+  actorId        String        @map("actor_id") @db.Uuid
+  createdAt      DateTime      @default(now()) @map("created_at")
+  session        GameSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team           Team          @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  payments       LoanPayment[]
+
+  @@unique([sessionId, idempotencyKey])
+  @@index([sessionId, teamId])
+  @@map("loans")
+}
+
+model LoanPayment {
+  id             String   @id @default(uuid()) @db.Uuid
+  loanId         String   @map("loan_id") @db.Uuid
+  amount         Int
+  remainingAfter Int      @map("remaining_after")
+  idempotencyKey String   @map("idempotency_key")
+  actorId        String   @map("actor_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+  loan           Loan     @relation(fields: [loanId], references: [id], onDelete: Cascade)
+
+  @@unique([loanId, idempotencyKey])
+  @@map("loan_payments")
+}
+
+model ObjectYield {
+  objectTypeId   String       @map("object_type_id") @db.Uuid
+  resourceTypeId String       @map("resource_type_id") @db.Uuid
+  unitsPerQuarter Int         @map("units_per_quarter")
+  objectType     ObjectType   @relation(fields: [objectTypeId], references: [id], onDelete: Cascade)
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@id([objectTypeId, resourceTypeId])
+  @@map("object_yields")
+}
+
+model ResourceStock {
+  sessionId      String       @map("session_id") @db.Uuid
+  teamId         String       @map("team_id") @db.Uuid
+  resourceTypeId String       @map("resource_type_id") @db.Uuid
+  quantity       Int          @default(0)
+  session        GameSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team           Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@id([sessionId, teamId, resourceTypeId])
+  @@index([teamId])
+  @@map("resource_stocks")
+}
+
+model ResourceType {
+  id              String           @id @default(uuid()) @db.Uuid
+  code            String           @unique
+  label           String
+  baseUnitPrice   Int              @default(0) @map("base_unit_price")
+  prices          ResourcePrice[]
+  priceRules      PriceRule[]
+  productionLines ProductionLine[]
+  yields          ObjectYield[]
+  resourceStocks  ResourceStock[]
+  resourceSales   ResourceSale[]
+  tenderRequirements TenderRequirement[]
+  tenderContributions TenderContribution[]
+
+  @@map("resource_types")
+}
+
+model ObjectPrice {
+  sessionId    String      @map("session_id") @db.Uuid
+  objectTypeId String      @map("object_type_id") @db.Uuid
+  currentPrice Int         @map("current_price")
+  session      GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  objectType   ObjectType  @relation(fields: [objectTypeId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, objectTypeId])
+  @@map("object_prices")
+}
+
+model ResourcePrice {
+  sessionId        String       @map("session_id") @db.Uuid
+  resourceTypeId   String       @map("resource_type_id") @db.Uuid
+  currentUnitPrice Int          @map("current_unit_price")
+  session          GameSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  resourceType     ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Cascade)
+
+  @@id([sessionId, resourceTypeId])
+  @@map("resource_prices")
+}
+
+model ResourceSale {
+  id             String       @id @default(uuid()) @db.Uuid
+  sessionId      String       @map("session_id") @db.Uuid
+  teamId         String       @map("team_id") @db.Uuid
+  resourceTypeId String       @map("resource_type_id") @db.Uuid
+  quantity       Int
+  unitPrice      Int          @map("unit_price")
+  totalPrice     Int          @map("total_price")
+  idempotencyKey String       @map("idempotency_key")
+  actorId        String       @map("actor_id") @db.Uuid
+  createdAt      DateTime     @default(now()) @map("created_at")
+  session        GameSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team           Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@unique([sessionId, idempotencyKey])
+  @@index([sessionId, teamId])
+  @@map("resource_sales")
+}
+
+model Tender {
+  id              String               @id @default(uuid()) @db.Uuid
+  sessionId       String               @map("session_id") @db.Uuid
+  title           String
+  objectTypeCode  String?              @map("object_type_code")
+  deadlineQuarter Int                  @map("deadline_quarter")
+  paidAt          DateTime?            @map("paid_at")
+  closedAt        DateTime?            @map("closed_at")
+  createdAt       DateTime             @default(now()) @map("created_at")
+  actorId         String               @map("actor_id") @db.Uuid
+  idempotencyKey  String               @map("idempotency_key")
+  session         GameSession          @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  requirements    TenderRequirement[]
+  contributions   TenderContribution[]
+
+  @@index([sessionId, deadlineQuarter])
+  @@unique([sessionId, idempotencyKey])
+  @@map("tenders")
+}
+
+model TenderRequirement {
+  tenderId       String       @map("tender_id") @db.Uuid
+  resourceTypeId String       @map("resource_type_id") @db.Uuid
+  requiredUnits  Int          @map("required_units")
+  tender         Tender       @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@id([tenderId, resourceTypeId])
+  @@map("tender_requirements")
+}
+
+model TenderContribution {
+  id             String       @id @default(uuid()) @db.Uuid
+  tenderId       String       @map("tender_id") @db.Uuid
+  teamId         String       @map("team_id") @db.Uuid
+  resourceTypeId String       @map("resource_type_id") @db.Uuid
+  quantity       Int
+  idempotencyKey String       @map("idempotency_key")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  tender         Tender       @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  team           Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@unique([tenderId, idempotencyKey])
+  @@index([teamId])
+  @@map("tender_contributions")
+}
+
+model Patent {
+  id                     String      @id @default(uuid()) @db.Uuid
+  sessionId              String      @map("session_id") @db.Uuid
+  teamId                 String      @map("team_id") @db.Uuid
+  name                   String
+  industry               String
+  duration               Int
+  coefficientBasisPoints Int         @map("coefficient_basis_points")
+  registeredQuarter      Int         @map("registered_quarter")
+  idempotencyKey         String      @map("idempotency_key")
+  actorId                String      @map("actor_id") @db.Uuid
+  createdAt              DateTime    @default(now()) @map("created_at")
+  session                GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team                   Team        @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, idempotencyKey])
+  @@index([sessionId, teamId])
+  @@map("patents")
+}
+
+model MedicalEvent {
+  id             String             @id @default(uuid()) @db.Uuid
+  sessionId      String             @map("session_id") @db.Uuid
+  title          String             @default("")
+  duration       Int                @default(1)
+  status         String             @default("draft")
+  idempotencyKey String             @map("idempotency_key")
+  actorId        String             @map("actor_id") @db.Uuid
+  createdAt      DateTime           @default(now()) @map("created_at")
+  startedAt      DateTime?          @map("started_at")
+  finishedAt     DateTime?          @map("finished_at")
+  session        GameSession        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  teams          MedicalEventTeam[]
+
+  @@unique([sessionId, idempotencyKey])
+  @@index([sessionId, status])
+  @@map("medical_events")
+}
+
+model MedicalEventTeam {
+  eventId String       @map("event_id") @db.Uuid
+  teamId  String       @map("team_id") @db.Uuid
+  event   MedicalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  team    Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@id([eventId, teamId])
+  @@map("medical_event_teams")
+}
+
+model PriceRule {
+  id             String       @id @default(uuid()) @db.Uuid
+  sessionId      String       @map("session_id") @db.Uuid
+  resourceTypeId String       @map("resource_type_id") @db.Uuid
+  version        Int
+  params         Json         @map("params_json")
+  resourceType   ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@unique([sessionId, resourceTypeId, version])
+  @@index([sessionId])
+  @@map("price_rules")
+}
+
+model QuarterRun {
+  id              String           @id @default(uuid()) @db.Uuid
+  sessionId       String           @map("session_id") @db.Uuid
+  quarterNumber   Int              @map("quarter_number")
+  status          QuarterRunStatus
+  ruleVersion     Int              @map("rule_version")
+  startedAt       DateTime         @default(now()) @map("started_at")
+  finishedAt      DateTime?        @map("finished_at")
+  session         GameSession      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  productionLines ProductionLine[]
+  ledgerEntries   LedgerEntry[]
+
+  @@unique([sessionId, quarterNumber])
+  @@index([sessionId])
+  @@map("quarter_runs")
+}
+
+model ProductionLine {
+  id            String       @id @default(uuid()) @db.Uuid
+  quarterRunId  String       @map("quarter_run_id") @db.Uuid
+  teamId        String       @map("team_id") @db.Uuid
+  resourceTypeId String      @map("resource_type_id") @db.Uuid
+  producedUnits Int          @map("produced_units")
+  consumedUnits Int          @default(0) @map("consumed_units")
+  soldUnits     Int          @default(0) @map("sold_units")
+  unitPrice     Int          @map("unit_price")
+  revenue       Int
+  quarterRun    QuarterRun   @relation(fields: [quarterRunId], references: [id], onDelete: Cascade)
+  team          Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  resourceType  ResourceType @relation(fields: [resourceTypeId], references: [id], onDelete: Restrict)
+
+  @@index([teamId])
+  @@unique([quarterRunId, teamId, resourceTypeId])
+  @@map("production_lines")
+}
+
+model LedgerEntry {
+  id             String       @id @default(uuid()) @db.Uuid
+  sessionId      String       @map("session_id") @db.Uuid
+  teamId         String       @map("team_id") @db.Uuid
+  quarterRunId   String?      @map("quarter_run_id") @db.Uuid
+  operationType  String       @map("operation_type")
+  amountSigned   Int          @map("amount_signed")
+  balanceAfter   Int          @map("balance_after")
+  idempotencyKey String       @map("idempotency_key")
+  actorId        String?      @map("actor_id") @db.Uuid
+  createdAt      DateTime     @default(now()) @map("created_at")
+  session        GameSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  team           Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  quarterRun     QuarterRun?  @relation(fields: [quarterRunId], references: [id], onDelete: SetNull)
+
+  @@unique([sessionId, operationType, idempotencyKey])
+  @@index([sessionId])
+  @@index([teamId])
+  @@map("ledger_entries")
+}
+
+model AuditEvent {
+  id          String      @id @default(uuid()) @db.Uuid
+  sessionId   String      @map("session_id") @db.Uuid
+  actorType   ActorType   @map("actor_type")
+  actorId     String?     @map("actor_id") @db.Uuid
+  action      String
+  payload     Json        @map("payload_json")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  session     GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("audit_events")
+}
+

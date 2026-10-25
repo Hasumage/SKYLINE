@@ -1,0 +1,43 @@
+{
+  "name": "skyline",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web,proxy -c blue,green,magenta \"npm run dev:api\" \"npm run dev:web\" \"npm run dev:proxy\"",
+    "dev:api": "npm run dev --workspace apps/api",
+    "dev:web": "npm run dev --workspace apps/web",
+    "start:web": "npm run start --workspace apps/web",
+    "dev:proxy": "node scripts/dev-proxy.mjs",
+    "tunnel": "node scripts/start-ngrok.mjs",
+    "mobile:stack": "concurrently -k -n api,web,proxy -c blue,green,magenta \"npm run dev:api\" \"npm run start:web\" \"npm run dev:proxy\"",
+    "dev:tunnel": "npm run build --workspace apps/web && concurrently -k -n stack,tunnel -c cyan,yellow \"npm run mobile:stack\" \"npm run tunnel\"",
+    "tunnel:check": "node scripts/check-tunnel.mjs",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:lobby": "node --env-file=.env scripts/run-lobby-test.mjs",
+    "db:create": "node scripts/create-databases.mjs",
+    "db:status": "prisma migrate status",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:validate": "prisma validate"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.23.1",
+    "concurrently": "^10.0.6",
+    "eslint": "^9.14.0",
+    "pg": "^8.23.1",
+    "prettier": "^3.3.3",
+    "prisma": "^5.22.0",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.46.1",
+    "vitest": "^5.0.4"
+  }
+}

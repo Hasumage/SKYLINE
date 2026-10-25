@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">SKYLINE</title>
+  <rect width="64" height="64" rx="14" fill="#071632"/>
+  <path d="M11 33 21 25v25H11Z" fill="#0A78F9"/>
+  <path d="M25 24 35 16v34H25Z" fill="#198DFF"/>
+  <path d="M39 15 51 6v44H39Z" fill="#5CB9FF"/>
+  <rect x="10" y="52" width="44" height="4" rx="2" fill="#D8F1FF"/>
+</svg>

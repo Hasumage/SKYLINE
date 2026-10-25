@@ -1,0 +1,36 @@
+.tenders-admin { min-height: 100svh; padding: 22px; background: #f3f9ff; color: #081638; font-family: Arial, Helvetica, sans-serif; }
+.tenders-admin > header { max-width: 1100px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin: auto auto 22px; }
+.tenders-admin > header h1 { margin: 0; font-size: 24px; }
+.tenders-admin > header span { color: #60769c; font-size: 13px; }
+.tenders-admin-layout { max-width: 1100px; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(270px, .8fr); gap: 14px; margin: auto; }
+.tenders-admin-layout > section { min-width: 0; padding: 18px; border: 1px solid #dce9f6; border-radius: 7px; background: #fff; }
+.tenders-admin h2 { display: flex; align-items: center; gap: 7px; margin: 0 0 18px; font-size: 18px; }
+.tenders-admin h3 { margin: 18px 0 9px; font-size: 13px; }
+.tenders-admin-field { display: flex; flex-direction: column; gap: 5px; margin: 12px 0; color: #60769c; font-size: 12px; }
+.tenders-admin-field input { width: 100%; height: 38px; padding: 0 10px; border: 1px solid #dce9f6; border-radius: 5px; color: #081638; font-size: 14px; }
+.tenders-admin-objects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.tenders-admin-objects button { min-height: 43px; display: flex; align-items: center; gap: 6px; padding: 7px; border: 1px solid #dce9f6; border-radius: 5px; color: #536d94; font-size: 11px; text-align: left; cursor: pointer; }
+.tenders-admin-objects button span { min-width: 0; flex: 1; }
+.tenders-admin-objects button.is-selected { border-color: #087cff; background: #edf6ff; color: #087cff; }
+.tenders-admin-resources { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.tenders-admin-resources label { min-width: 0; display: flex; align-items: center; gap: 6px; color: #087cff; }
+.tenders-admin-resources span { min-width: 0; flex: 1; color: #536d94; font-size: 12px; }
+.tenders-admin-resources input { width: 70px; height: 34px; padding: 0 6px; border: 1px solid #dce9f6; border-radius: 5px; color: #081638; font-size: 13px; }
+.tenders-admin-primary { width: 100%; height: 42px; margin-top: 20px; border-radius: 5px; background: #087cff; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; }
+.tenders-admin-primary:disabled { background: #b8c9dc; cursor: default; }
+.tenders-admin-list article { display: flex; flex-direction: column; gap: 9px; padding: 12px 0; border-bottom: 1px solid #e7eef8; }
+.tenders-admin-list-head { display: flex; justify-content: space-between; gap: 8px; }
+.tenders-admin-list-head strong { font-size: 13px; }
+.tenders-admin-list-head span { display: flex; align-items: center; gap: 3px; color: #60769c; font-size: 10px; white-space: nowrap; }
+.tenders-admin-progress { height: 7px; overflow: hidden; border-radius: 4px; background: #deebf8; }
+.tenders-admin-progress i { display: block; height: 100%; background: #087cff; }
+.tenders-admin-list article > small { color: #60769c; font-size: 11px; }
+.tenders-admin-requirements { display: flex; flex-wrap: wrap; gap: 5px; }
+.tenders-admin-requirements span { padding: 4px 5px; border-radius: 4px; background: #edf6ff; color: #43618b; font-size: 10px; }
+.tenders-admin-list article > button { align-self: flex-start; display: flex; align-items: center; gap: 4px; color: #cf4949; font-size: 11px; cursor: pointer; }
+.tenders-admin-empty { color: #60769c; font-size: 12px; }
+.tenders-admin-reward { display: block; margin-top: 5px; color: #087cff; font-weight: 700; }
+.tenders-admin-notice { max-width: 1100px; margin: -7px auto 15px; padding: 9px 12px; border-radius: 5px; background: #eaf4ff; color: #265796; font-size: 12px; }
+.tenders-admin-state { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; color: #60769c; }
+@media (max-width: 760px) { .tenders-admin { padding: 12px; } .tenders-admin-layout { grid-template-columns: 1fr; } }
+@media (max-width: 430px) { .tenders-admin-objects { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tenders-admin-resources { grid-template-columns: 1fr; } }

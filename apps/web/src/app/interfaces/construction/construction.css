@@ -1,0 +1,229 @@
+.construction-building-art {
+  flex: 0 0 91px;
+  width: 91px;
+  height: 91px;
+  display: block;
+  border-radius: 8px;
+  background-color: #eaf5ff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.construction-building-art--generic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #087cff;
+}
+.construction-building-art--generic svg {
+  width: 40%;
+  height: 40%;
+}
+.construction-catalog-item {
+  min-height: 166px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.construction-catalog-item .construction-building-art {
+  flex-basis: 120px;
+  width: 120px;
+  height: 120px;
+}
+.construction-catalog-item:focus-visible {
+  outline: 3px solid #087cff;
+  outline-offset: 2px;
+}
+.construction-form label,
+.construction-form-row {
+  min-height: 60px;
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  color: #5267a4;
+  font-size: 18px;
+}
+.construction-type-picker > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #5267a4;
+  font-size: 18px;
+}
+.construction-selected-type {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px 8px 8px;
+  border: 1px solid #b7d5fa;
+  border-radius: 8px;
+  background: #f3f9ff;
+  color: #081936;
+  text-align: left;
+  cursor: pointer;
+}
+.construction-selected-type:hover { border-color: #087cff; background: #eaf5ff; }
+.construction-selected-type:focus-visible,
+.construction-picker-dialog button:focus-visible {
+  outline: 3px solid #087cff;
+  outline-offset: 2px;
+}
+.construction-selected-type .construction-building-art {
+  flex-basis: 82px;
+  width: 82px;
+  height: 82px;
+}
+.construction-selected-type-copy { min-width: 0; flex: 1; }
+.construction-selected-type-copy strong,
+.construction-selected-type-copy small {
+  display: block;
+  line-height: 1.25;
+}
+.construction-selected-type-copy strong { font-size: 22px; font-weight: 800; }
+.construction-selected-type-copy small { margin-top: 6px; color: #168b55; font-size: 17px; }
+.construction-selected-type-action { display: flex; align-items: center; gap: 4px; color: #087cff; font-size: 18px; font-weight: 700; }
+.construction-picker-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: #071632a6;
+}
+.construction-picker-dialog {
+  width: min(760px, 100%);
+  max-height: min(720px, calc(100dvh - 40px));
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 22px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 80px #07163255;
+}
+.construction-picker-dialog::-webkit-scrollbar { display: none; }
+.construction-picker-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.construction-picker-header h2 { color: #081936; font-size: 26px; font-weight: 800; }
+.construction-picker-header button { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 6px; color: #5267a4; cursor: pointer; }
+.construction-picker-header button:hover { background: #eef6ff; }
+.construction-picker-filters {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  margin: 0 -2px 16px;
+  padding: 2px 2px 7px;
+  scrollbar-width: none;
+}
+.construction-picker-filters::-webkit-scrollbar { display: none; }
+.construction-picker-filters button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 11px;
+  border: 1px solid #dce8f6;
+  border-radius: 6px;
+  background: #f5f9ff;
+  color: #5267a4;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.construction-picker-filters button:hover { border-color: #8cbfff; color: #087cff; }
+.construction-picker-filters button.is-active { border-color: #087cff; background: #087cff; color: #fff; }
+.construction-resource-panel {
+  margin: -22px -25px 20px;
+  padding: 19px 25px 22px;
+  border-bottom: 1px solid #d8e8f6;
+  background: #edf6ff;
+}
+.construction-resource-panel h2 { color: #081936; font-size: 29px; font-weight: 800; }
+.construction-catalog-filters { gap: 9px; margin: 13px 0 0; padding: 0 0 2px; }
+.construction-catalog-filters button {
+  --chip-color: #087cff;
+  --chip-bg: #fff;
+  --chip-border: #bbdbff;
+  min-height: 62px;
+  gap: 8px;
+  padding: 0 17px;
+  border-color: var(--chip-border);
+  background: var(--chip-bg);
+  color: var(--chip-color);
+  font-size: 19px;
+}
+.construction-catalog-filters button[data-tone="housing"] { --chip-color: #128347; --chip-bg: #e3f5e9; --chip-border: #b9e5c7; }
+.construction-catalog-filters button[data-tone="energy"] { --chip-color: #c66a14; --chip-bg: #fff0dd; --chip-border: #f5d6b3; }
+.construction-catalog-filters button[data-tone="gas"] { --chip-color: #0874d8; --chip-bg: #e0f0ff; --chip-border: #b7dcff; }
+.construction-catalog-filters button[data-tone="metal"] { --chip-color: #5a6dab; --chip-bg: #e9edfa; --chip-border: #cbd3ed; }
+.construction-catalog-filters button[data-tone="wood"] { --chip-color: #9a6124; --chip-bg: #fff0e2; --chip-border: #efd2b7; }
+.construction-catalog-filters button[data-tone="coal"] { --chip-color: #53657c; --chip-bg: #e9eef3; --chip-border: #cbd5df; }
+.construction-catalog-filters button:hover { border-color: var(--chip-color); color: var(--chip-color); }
+.construction-catalog-filters button.is-active { border-color: var(--chip-color); background: var(--chip-color); color: #fff; }
+.construction-picker-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.construction-picker-grid button {
+  position: relative;
+  min-width: 0;
+  min-height: 122px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid #dce8f6;
+  border-radius: 8px;
+  background: #fff;
+  color: #081936;
+  text-align: left;
+  cursor: pointer;
+}
+.construction-picker-grid button:hover { border-color: #8cbfff; background: #f5faff; }
+.construction-picker-grid button.is-selected { border-color: #087cff; background: #eef6ff; }
+.construction-picker-grid .construction-building-art { flex-basis: 98px; width: 98px; height: 98px; }
+.construction-picker-grid button > span:nth-child(2) { min-width: 0; }
+.construction-picker-grid strong,
+.construction-picker-grid small,
+.construction-picker-grid b { display: block; line-height: 1.2; }
+.construction-picker-grid strong { font-size: 18px; font-weight: 800; }
+.construction-picker-grid small { margin-top: 5px; color: #168b55; font-size: 14px; }
+.construction-picker-grid b { margin-top: 7px; color: #087cff; font-size: 17px; }
+.construction-picker-check { position: absolute; top: 9px; right: 9px; color: #087cff; }
+@media (max-width: 600px) {
+  .construction-picker-dialog { padding: 14px; }
+  .construction-picker-grid { grid-template-columns: 1fr; }
+  .construction-picker-grid button { min-height: 96px; }
+  .construction-picker-grid .construction-building-art { flex-basis: 75px; width: 75px; height: 75px; }
+}
+.construction-form label > span,
+.construction-form-row > span {
+  line-height: 1.2;
+}
+.construction-form input,
+.construction-form-row strong {
+  width: 100%;
+  min-width: 0;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 1px solid #b7c9ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #05072c;
+  font-size: 21px;
+  font-weight: 800;
+  outline: none;
+}
+.construction-form input:focus {
+  border-color: #087cff;
+  box-shadow: 0 0 0 3px #087cff22;
+}
+.construction-form-row strong {
+  border-color: transparent;
+  background: #eef6ff;
+}
+.construction-total {
+  color: #05072c;
+}

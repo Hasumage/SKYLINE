@@ -1,0 +1,140 @@
+.projector-frame { position: relative; width: 100%; height: 100dvh; overflow: hidden; background: #f4faff; color: #071632; font-family: Arial, Helvetica, sans-serif; }
+.projector-frame::before { position: absolute; inset: 0; background: url('/generated/lobby-waterfront.png') center bottom / cover no-repeat; opacity: .42; content: ''; }
+.projector-frame::after { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.72) 42%, rgba(245,251,255,.28) 100%); content: ''; pointer-events: none; }
+.projector-header { position: relative; z-index: 2; display: flex; align-items: center; gap: 22px; height: 10%; min-height: 65px; padding: 0 3%; border-bottom: 1px solid rgba(196,219,241,.8); background: rgba(255,255,255,.76); }
+.projector-header .lobby-mark-word { font-size: 30px; }
+.projector-header .lobby-mark-bars { transform: scale(1.25); transform-origin: left center; margin-right: 7px; }
+.projector-header-rule { width: 1px; height: 37px; background: #c9dcee; }
+.projector-header > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 22px; font-weight: 800; }
+.projector-time { display: grid; margin-left: auto; padding-left: 16px; text-align: right; white-space: nowrap; }
+.projector-time small { color: #63799c; font-size: 13px; }
+.projector-time strong { font-size: 28px; line-height: 1; }
+.projector-stage { position: relative; z-index: 1; height: 90%; }
+.projector-transition { position: absolute; inset: 0; }
+.projector-enter { z-index: 2; animation: projector-enter .7s cubic-bezier(.22,1,.36,1) both; }
+.projector-exit { z-index: 1; animation: projector-exit .7s ease-in both; }
+@keyframes projector-enter { from { opacity: 0; transform: translateY(22px) scale(.985); filter: blur(6px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+@keyframes projector-exit { from { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } to { opacity: 0; transform: translateY(-12px) scale(1.015); filter: blur(5px); } }
+.projector-scene { position: relative; height: 100%; padding: 2.4% 4%; }
+.projector-copy { position: relative; z-index: 2; }
+.projector-eyebrow { display: block; margin-bottom: 5px; color: #087cff; font-size: 15px; font-weight: 800; text-transform: uppercase; }
+.projector-copy h1 { margin: 0; font-size: 46px; line-height: 1.08; }
+.projector-copy p { margin: 7px 0 0; color: #657b9e; font-size: 19px; }
+.projector-overview-grid, .projector-resource-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr); align-items: center; height: 74%; gap: 3%; }
+.projector-donut { position: relative; width: min(100%, 67vh); height: min(100%, 67vh); justify-self: center; }
+.projector-donut-center { position: absolute; inset: 32%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; }
+.projector-donut-center strong { font-size: 72px; line-height: 1; }
+.projector-donut-center span { margin-top: 5px; font-size: 17px; }
+.projector-donut-empty { position: absolute; inset: 5%; border: 40px solid #dceaf5; border-radius: 50%; pointer-events: none; }
+.projector-legend, .projector-share-list { display: grid; align-content: center; gap: 6px; }
+.projector-legend-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) 54px 56px; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; border-bottom: 1px solid #dbe7f2; background: rgba(255,255,255,.78); font-size: 18px; font-weight: 700; }
+.projector-legend-row:first-child { border-radius: 8px 8px 0 0; }
+.projector-legend-row:last-child { border-radius: 0 0 8px 8px; }
+.projector-legend-row strong { text-align: right; }
+.projector-legend-row em { color: #647a9e; font-size: 16px; font-style: normal; text-align: right; }
+.projector-legend-swatch { width: 25px; height: 25px; border-radius: 5px; }
+.projector-ticker { position: absolute; right: 4%; bottom: 2.5%; left: 4%; display: flex; align-items: center; gap: 14px; min-height: 49px; padding: 0 20px; border: 1px solid rgba(191,215,241,.85); border-radius: 7px; background: rgba(255,255,255,.83); font-size: 19px; font-weight: 750; }
+.projector-ticker span { width: 7px; height: 25px; border-radius: 4px; background: #087cff; box-shadow: 10px -6px #39b8fa, 20px -12px #0b73ed; margin-right: 24px; }
+.projector-scene-resource .projector-eyebrow { color: var(--scene-accent); }
+.projector-resource-art { position: absolute; right: -4%; bottom: -14%; width: 30%; height: 54%; object-fit: contain; opacity: .26; }
+.projector-share-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 68px; align-items: center; gap: 4px 12px; padding: 9px 16px; border: 1px solid #dfebf6; border-radius: 7px; background: rgba(255,255,255,.85); }
+.projector-rank { grid-row: span 2; color: #a2b4ce; font-size: 21px; font-weight: 800; }
+.projector-share-name { font-size: 19px; font-weight: 750; }
+.projector-share-row strong { font-size: 28px; text-align: right; }
+.projector-share-track { grid-column: 2; height: 8px; overflow: hidden; border-radius: 5px; background: #e6edf5; }
+.projector-share-track span { display: block; height: 100%; border-radius: inherit; }
+.projector-share-row small { color: #687d9c; font-size: 13px; text-align: right; }
+.projector-team-grid { display: grid; grid-template-columns: 31% minmax(0, 1fr); height: 75%; gap: 2%; margin-top: 1%; }
+.projector-team-feature { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; background: rgba(255,255,255,.68); text-align: center; }
+.projector-team-initial { display: grid; width: 36%; aspect-ratio: 1; place-items: center; border-radius: 16px; background: var(--scene-accent); color: white; font-size: 72px; font-weight: 900; box-shadow: 0 14px 40px rgba(30,76,132,.18); }
+.projector-team-feature strong { max-width: 90%; margin-top: 18px; overflow-wrap: anywhere; font-size: 40px; }
+.projector-team-feature > span:last-child { color: #6e82a3; font-size: 17px; }
+.projector-team-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 2%; min-width: 0; }
+.projector-team-charts section { min-width: 0; padding: 18px; border: 1px solid #dbe9f6; border-radius: 8px; background: rgba(255,255,255,.88); }
+.projector-team-charts h2 { margin: 0; font-size: 19px; }
+.projector-team-chart { height: calc(100% - 32px); min-height: 150px; }
+.projector-loading { display: grid; min-height: 100dvh; place-items: center; background: #f3faff; color: #071632; font-size: 24px; font-weight: 800; }
+.projector-signin { display: grid; min-height: 100dvh; place-items: center; padding: 20px; background: #f3faff url('/generated/lobby-waterfront.png') center bottom / cover no-repeat; }
+.projector-signin form { display: grid; gap: 18px; width: min(100%, 370px); padding: 30px; border: 1px solid #d3e4f6; border-radius: 7px; background: rgba(255,255,255,.95); box-shadow: 0 16px 50px rgba(27,69,117,.12); }
+.projector-signin h1 { margin: 8px 0 0; font-size: 29px; }
+.projector-signin label { display: grid; gap: 8px; color: #577094; font-size: 13px; font-weight: 700; }
+.projector-signin input { width: 100%; height: 50px; padding: 0 13px; border: 1px solid #b5cdea; border-radius: 6px; background: white; color: #071632; font-size: 23px; font-weight: 800; letter-spacing: 2px; outline-color: #087cff; }
+.projector-signin button { height: 48px; border: 0; border-radius: 6px; background: #087cff; color: white; font-size: 15px; font-weight: 800; cursor: pointer; }
+.projector-signin button:disabled { opacity: .5; cursor: default; }
+.projector-signin form p { margin: 0; color: #b4232b; font-size: 13px; }
+.projector-connection { position: fixed; z-index: 10; right: 20px; bottom: 20px; padding: 10px 16px; border-radius: 7px; background: #fff0f0; color: #b4232b; font-size: 13px; }
+.projector-control { min-height: 100dvh; background: #f3f8fd; color: #071632; }
+.projector-control-shell { max-width: 1240px; min-height: 100dvh; margin: auto; background: white; }
+.projector-control-top { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; border-bottom: 1px solid #dbe8f5; }
+.projector-control-top > span { color: #62799d; font-size: 13px; font-weight: 700; }
+.projector-control-body { padding: 24px 28px 50px; }
+.projector-control-heading { display: flex; align-items: center; gap: 14px; }
+.projector-control-heading button { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid #d9e6f3; border-radius: 7px; background: white; color: #2869b5; cursor: pointer; }
+.projector-control-heading h1 { margin: 0; font-size: 28px; line-height: 1.1; }
+.projector-control-heading p { margin: 4px 0 0; color: #6c80a0; font-size: 14px; }
+.projector-control-actions { display: flex; justify-content: space-between; gap: 20px; margin: 24px 0; padding: 16px 20px; border: 1px solid #d6e6f6; border-radius: 7px; background: #edf6ff; }
+.projector-control-actions > div { display: grid; gap: 3px; }
+.projector-control-kicker { color: #6480a7; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+.projector-control-actions strong { font-size: 20px; }
+.projector-auto { display: flex; align-items: center; gap: 16px; cursor: pointer; }
+.projector-auto > span { display: grid; gap: 3px; font-size: 14px; font-weight: 700; text-align: right; }
+.projector-auto small { color: #6c80a0; font-size: 12px; font-weight: 400; }
+.projector-auto input { position: absolute; opacity: 0; }
+.projector-auto i { position: relative; width: 44px; height: 25px; border-radius: 16px; background: #b8c8db; transition: background .2s; }
+.projector-auto i::after { position: absolute; top: 3px; left: 3px; width: 19px; height: 19px; border-radius: 50%; background: white; content: ''; transition: transform .2s; }
+.projector-auto input:checked + i { background: #087cff; }
+.projector-auto input:checked + i::after { transform: translateX(19px); }
+.projector-auto input:focus-visible + i { outline: 3px solid #8dbfff; outline-offset: 3px; }
+.projector-control-grid { display: grid; grid-template-columns: minmax(210px, 270px) minmax(0, 1fr); gap: 20px; }
+.projector-control-list { display: grid; align-content: start; gap: 5px; }
+.projector-control-list h2 { margin: 15px 0 5px; color: #6880a5; font-size: 12px; text-transform: uppercase; }
+.projector-control-list h2:first-child { margin-top: 0; }
+.projector-control-list button { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 43px; padding: 9px 11px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: #173259; font-size: 14px; font-weight: 700; text-align: left; cursor: pointer; }
+.projector-control-list button:hover { background: #eef6ff; }
+.projector-control-list button.active { border-color: #99c9ff; background: #e9f4ff; color: #087cff; }
+.projector-control-list button:disabled { cursor: wait; opacity: .7; }
+.projector-control-dot { flex: none; width: 20px; height: 20px; border-radius: 5px; }
+.projector-control-resource { flex: none; width: 24px; height: 24px; object-fit: contain; }
+.projector-control-preview { min-width: 0; }
+.projector-preview-label { display: flex; justify-content: space-between; margin-bottom: 9px; color: #6b80a0; font-size: 13px; font-weight: 700; }
+.projector-preview-box { display: grid; overflow: hidden; width: 100%; aspect-ratio: 16 / 9; place-items: center; border: 1px solid #cce1f5; border-radius: 7px; background: #eaf4ff; }
+.projector-frame-preview { height: 100%; }
+.projector-frame-preview .projector-header { min-height: 0; gap: 9px; }
+.projector-frame-preview .lobby-mark-word { font-size: 11px; }
+.projector-frame-preview .lobby-mark-bars { transform: scale(.5); margin-right: -7px; }
+.projector-frame-preview .projector-header-rule { height: 15px; }
+.projector-frame-preview .projector-header > span { font-size: 10px; }
+.projector-frame-preview .projector-time small { font-size: 7px; }
+.projector-frame-preview .projector-time strong { font-size: 12px; }
+.projector-frame-preview .projector-eyebrow { margin: 0; font-size: 8px; }
+.projector-frame-preview .projector-copy h1 { font-size: 21px; }
+.projector-frame-preview .projector-copy p { margin-top: 3px; font-size: 10px; }
+.projector-frame-preview .projector-overview-grid, .projector-frame-preview .projector-resource-grid { grid-template-columns: 1.1fr .9fr; height: 72%; }
+.projector-frame-preview .projector-donut { width: 100%; height: 100%; }
+.projector-frame-preview .projector-donut-center strong { font-size: 30px; }
+.projector-frame-preview .projector-donut-center span { font-size: 9px; }
+.projector-frame-preview .projector-donut-empty { border-width: 16px; }
+.projector-frame-preview .projector-legend, .projector-frame-preview .projector-share-list { gap: 2px; }
+.projector-frame-preview .projector-legend-row { grid-template-columns: 10px minmax(0,1fr) 22px 22px; gap: 3px; min-height: 19px; padding: 0 4px; font-size: 8px; }
+.projector-frame-preview .projector-legend-row em { font-size: 8px; }
+.projector-frame-preview .projector-legend-swatch { width: 9px; height: 9px; }
+.projector-frame-preview .projector-ticker { min-height: 20px; gap: 6px; padding: 0 6px; font-size: 8px; }
+.projector-frame-preview .projector-ticker span { height: 9px; width: 3px; margin-right: 9px; box-shadow: 4px -2px #39b8fa, 8px -4px #0b73ed; }
+.projector-frame-preview .projector-share-row { grid-template-columns: 14px minmax(0,1fr) 28px; gap: 2px 4px; padding: 3px 5px; }
+.projector-frame-preview .projector-rank, .projector-frame-preview .projector-share-name { font-size: 9px; }
+.projector-frame-preview .projector-share-row strong { font-size: 12px; }
+.projector-frame-preview .projector-share-row small { font-size: 7px; }
+.projector-frame-preview .projector-share-track { height: 3px; }
+.projector-frame-preview .projector-team-initial { border-radius: 7px; font-size: 28px; }
+.projector-frame-preview .projector-team-feature strong { margin-top: 6px; font-size: 16px; }
+.projector-frame-preview .projector-team-feature > span:last-child { font-size: 7px; }
+.projector-frame-preview .projector-team-charts section { padding: 5px; }
+.projector-frame-preview .projector-team-charts h2 { font-size: 9px; }
+.projector-frame-preview .projector-team-chart { height: calc(100% - 12px); min-height: 0; }
+.projector-link-actions { display: flex; gap: 8px; margin-top: 14px; }
+.projector-link-actions a, .projector-link-actions button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 43px; padding: 0 13px; border: 1px solid #b7d6fa; border-radius: 6px; background: white; color: #087cff; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; }
+.projector-link-actions a { background: #087cff; color: white; }
+.projector-control-error { padding: 10px 14px; border-radius: 6px; background: #fff0f1; color: #b4232b; }
+@media (max-width: 760px) { .projector-control-body { padding: 18px 16px 40px; } .projector-control-grid { grid-template-columns: 1fr; } .projector-control-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .projector-control-list h2 { grid-column: 1 / -1; } .projector-control-actions { align-items: flex-start; } .projector-auto > span { max-width: 150px; } }
+@media (max-width: 520px) { .projector-control-top { padding: 14px 16px; } .projector-control-actions { flex-direction: column; } .projector-auto > span { max-width: none; text-align: left; } .projector-frame-preview .projector-copy h1 { font-size: 14px; } .projector-frame-preview .projector-copy p { font-size: 7px; } .projector-frame-preview .projector-legend-row { font-size: 6px; } .projector-frame-preview .projector-legend-row em { font-size: 6px; } }
+@media (prefers-reduced-motion: reduce) { .projector-enter, .projector-exit { animation: none; } .projector-auto i, .projector-auto i::after { transition: none; } }
