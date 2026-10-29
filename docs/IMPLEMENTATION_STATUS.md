@@ -1,6 +1,6 @@
 # Implementation status
 
-Checked against the code on 2026-10-25. This describes implemented behavior, not a promise that every prototype screen is connected to a live match.
+Checked against the code on 2026-10-25.
 
 ## Entry points and persistence
 
